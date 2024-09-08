@@ -7,7 +7,7 @@ app.use(cors());
 
 dotenv.config({ path: "./config.env" });
 
-const PORT = 4000;
+const PORT = 3000;
 
 app.listen(PORT, () => {
     console.log("listening on port: ", PORT);
@@ -17,11 +17,14 @@ app.get("/", (req, res) => {
     res.status(200).json({ youGot: "rooted" });
 });
 app.get("/coins", async (req, res) => {
-    const response = await fetch(`${process.env.API}/latest?limit=50`, {
-        headers: {
-            "X-CMC_PRO_API_KEY": process.env.KEY,
-        },
-    });
+    const response = await fetch(
+        `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=50`,
+        {
+            headers: {
+                "X-CMC_PRO_API_KEY": process.env.KEY,
+            },
+        }
+    );
     const result = await response.json();
     res.status(200).json(result);
 });
